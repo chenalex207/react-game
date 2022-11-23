@@ -7,11 +7,6 @@ ol, ul {
   padding-left: 30px;
 }
 
-li button:active {
-  font-weight: bold;
-  background: yellow;
-}
-
 .board-row:after {
   clear: both;
   content: "";

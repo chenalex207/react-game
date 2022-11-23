@@ -53,11 +53,6 @@ class Game extends React.Component {
         }
       ],
       stepNumber: 0,
-      pos_his: [
-        {
-          pos: Array(2).fill(null),
-        }
-      ],
       xIsNext: true
     };
   }
@@ -66,22 +61,10 @@ class Game extends React.Component {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
-    const pos_his = this.state.pos_his.slice(0, this.state.stepNumber + 1);
-    const pos = pos_his[pos_his.length - 1];
-    let xy = pos.pos.slice();
-
     if (calculateWinner(squares) || squares[i]) {
       return;
     }
-
     squares[i] = this.state.xIsNext ? "X" : "O";
-
-    xy = calculatePos(i);
-
-    //xy[0] = i % 3;
-    //xy[1] = parseInt(i / 3);    
-
-
     this.setState({
       history: history.concat([
         {
@@ -89,11 +72,6 @@ class Game extends React.Component {
         }
       ]),
       stepNumber: history.length,
-      pos_his: pos_his.concat([
-         {
-           pos: xy
-         }
-      ]),
       xIsNext: !this.state.xIsNext
     });
   }
@@ -109,10 +87,6 @@ class Game extends React.Component {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
-    const pos_his = this.state.pos_his;
-    const pos = pos_his[this.state.stepNumber];
-    const xy = pos.pos;
-
 
     const moves = history.map((step, move) => {
       const desc = move ?
@@ -124,12 +98,6 @@ class Game extends React.Component {
         </li>
       );
     });
-
-    let position = '準備開始';
-
-    if (xy[0] !== null || xy[1] !== null) {
-      position = '第' + (xy[0]+1) + '欄, 第' + (xy[1]+1) + ' 列';
-    } 
 
     let status;
     if (winner) {
@@ -147,7 +115,6 @@ class Game extends React.Component {
           />
         </div>
         <div className="game-info">
-          <div>{position}</div>
           <div>{status}</div>
           <ol>{moves}</ol>
         </div>
@@ -180,15 +147,3 @@ function calculateWinner(squares) {
   }
   return null;
 }
-
-function calculatePos(i) {
-  
-      var b = parseInt(i / 3);
-      var a = i % 3;
-
-      let pos = [a, b];
-      return pos;
- 
-}
-
-
