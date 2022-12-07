@@ -20,27 +20,46 @@ class Board extends React.Component {
     );
   }
 
-  render() {
-    return (
-      <div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
-      </div>
-    );
-  }
+  
+      render() {
+         const loopCount = Array(9).fill(null);
+    
+const e = loopCount.map((step,move) => {
+                      let j = move % 3;
+                   
+                        if (j === 0) { 
+                       
+                         return (<span>{this.renderSquare(move)}</span>);
+                        }
+
+                        if (j === 1) { 
+                         return (<span>{this.renderSquare(move)}</span>);
+                        }
+
+                        if (j === 2) { 
+                         return (<span>{this.renderSquare(move)}</span>);
+                        }
+        
+                     }
+                  );
+ 
+         
+
+         return (<div>
+                 <div>
+                 {e}
+                 </div>
+                 <div>
+                 {e}
+                 </div>
+                 <div>
+                 {e}
+                 </div>
+                 </div>
+
+                );
+      } 
+   
 }
 
 class Game extends React.Component {
@@ -58,6 +77,7 @@ class Game extends React.Component {
           pos: Array(2).fill(null),         // 初始化（欄，列）值
         }
       ],
+      loopCount: Array(3).fill(null),
       xIsNext: true
     };
   }
@@ -194,4 +214,11 @@ function calculatePos(i) {       // 計算 欄，列 位置的函數
  
 }
 
+function loop() {       
+  
+      
+
+     
+ 
+}
 
