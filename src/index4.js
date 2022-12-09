@@ -36,22 +36,24 @@ class Board extends React.Component {
     );
   }
 
-  renderRow(i) {
-    return (
-      <div className="board-row">
-        {this.renderSquare(0 + 3*i)}
-        {this.renderSquare(1 + 3*i)}
-        {this.renderSquare(2 + 3*i)}
-      </div>   
-    );
-  }
-  
   render() {
     return (
       <div>
-          {this.renderRow(0)}
-          {this.renderRow(1)}
-          {this.renderRow(2)}
+        <div className="board-row">
+          {this.renderSquare(0)}
+          {this.renderSquare(1)}
+          {this.renderSquare(2)}
+        </div>
+        <div className="board-row">
+          {this.renderSquare(3)}
+          {this.renderSquare(4)}
+          {this.renderSquare(5)}
+        </div>
+        <div className="board-row">
+          {this.renderSquare(6)}
+          {this.renderSquare(7)}
+          {this.renderSquare(8)}
+        </div>
       </div>
     );
   }
@@ -85,7 +87,7 @@ class Game extends React.Component {
     const pos = pos_his[pos_his.length - 1];                                 // 取得最新（欄，列）值紀錄
     let xy = pos.pos.slice();                                                // 取得最新（欄，列）值
 
-    if (calculateWinner(squares) || squares[i]) {   // 如果已達成連線或點擊位置已有值, 則不做任何動作, 返回。
+    if (calculateWinner(squares) || squares[i]) {
       return;
     }
 
@@ -140,11 +142,10 @@ class Game extends React.Component {
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);  // 計算誰是勝利者 ?
     const tie = calculateTie(current.squares);        // 計算是否平手 ?
-    const line = calculateWinLine(current.squares);  // 計算達成連線之位置 
     const pos_his = this.state.pos_his;
     const pos = pos_his[this.state.stepNumber];
     const xy = pos.pos;                           // 取得這一步的（欄，列）值。
-    const incOrDec = this.state.incOrDec;         // 取得歷史步驟向上或向下排列狀態
+    const incOrDec = this.state.incOrDec;         // 取得向上或向下排列狀態
 
 
     const moves = history.map((step, move) => {
@@ -174,14 +175,6 @@ class Game extends React.Component {
     let status;
     if (winner) {                     // 如果 winner 有值, 填入 status
       status = "Winner: " + winner;
-      var squares = document.querySelectorAll('.square');
-      for (let i = 0; i < squares.length; i++) {
-          if (i === line[0] ||i === line[1] || i === line[2]) {
-            squares[i].classList.add('win');           // 已達成連線之方格新增 win class 屬性
-          }
-      }
-      //console.log(squares);
-       
     } else if (tie) {
       status = "Tie: 平手";           // 如果 tie 有值, 填入 status
     } else {
@@ -219,7 +212,7 @@ class Game extends React.Component {
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<Game />);
 
-function calculateWinner(squares) {       // 計算是否達成連線的函數
+function calculateWinner(squares) {
   const lines = [
     [0, 1, 2],
     [3, 4, 5],
@@ -234,26 +227,6 @@ function calculateWinner(squares) {       // 計算是否達成連線的函數
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
       return squares[a];
-    }
-  }
-  return null;
-}
-
-function calculateWinLine(squares) {       // 計算達成連線之方格的位置的函數
-  const lines = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6]
-  ];
-  for (let i = 0; i < lines.length; i++) {
-    const [a, b, c] = lines[i];
-    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return lines[i];
     }
   }
   return null;
